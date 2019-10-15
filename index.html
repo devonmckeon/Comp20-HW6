@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script
+      type="text/javascript"
+      src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"
+    ></script>
+    <title>HW6</title>
+    <style type="text/css">
+      body {
+        background-image: linear-gradient(to bottom right, #3d2c2e, #424c55);
+        font-family: "Lucida Sans", sans-serif;
+        text-align: center;
+        color: #f5edf0;
+      }
+      span {
+        position: absolute;
+      }
+      #thumbnails {
+        background-image: linear-gradient(to bottom right, #f5edf0, #d1ccdc);
+      }
+      #largeImage {
+        border-color: #f5edf0;
+        border-style: solid;
+        border-width: 5px;
+      }
+      .thumbnail {
+        padding: 0.5%;
+      }
+      div {
+        position: relative;
+        padding: 1%;
+      }
+      #img-info {
+        background-color: #d1ccdc;
+        opacity: 0.75;
+        z-index: 6;
+        position: absolute;
+        width: 100%;
+      }
+      .selected {
+        border-color: #f5edf0;
+        border-style: solid;
+        border-width: 5px;
+      }
+      p {
+        color: #000a0a;
+        opacity: 1 !important;
+      }
+    </style>
+    <script language="javascript">
+      function GalleryObj(name, price, smallImg, largeImg) {
+        this.name = name;
+        this.price = price;
+        this.smallImg = smallImg;
+        this.largeImg = largeImg;
+      }
+
+      var galleryObjects = Array();
+      var newObj = new GalleryObj(
+        "Starry Night",
+        5000,
+        "starrynight-thumbnail.jpg",
+        "starrynight.jpg"
+      );
+      galleryObjects.push(newObj);
+      newObj = new GalleryObj(
+        "Monet's Garden",
+        7000,
+        "monetsgarden-thumbnail.jpg",
+        "monetsgarden.jpg"
+      );
+      galleryObjects.push(newObj);
+      newObj = new GalleryObj(
+        "The Road Menders",
+        10000,
+        "roadmenders-thumbnail.jpg",
+        "roadmenders.jpg"
+      );
+      galleryObjects.push(newObj);
+      newObj = new GalleryObj(
+        "Rain's Rustle",
+        4000,
+        "rainsrustle-thumbnail.jpg",
+        "rainsrustle.jpg"
+      );
+      galleryObjects.push(newObj);
+      newObj = new GalleryObj(
+        "The Last Supper",
+        5600,
+        "lastsupper-thumbnail.jpg",
+        "lastsupper.jpg"
+      );
+      galleryObjects.push(newObj);
+
+      function addThumbnails() {
+        $.each(galleryObjects, function(intIndex, obj) {
+          $("#thumbnails").append(
+            $(
+              "<img id =" +
+                intIndex +
+                " class='thumbnail' src=" +
+                obj.smallImg +
+                "></img>"
+            )
+          );
+
+          $("#" + intIndex).click(onClick);
+          $("#" + intIndex).hover(onHover);
+          $("#" + intIndex).mouseenter(onMouseEnter);
+          $("#" + intIndex).mouseleave(onMouseLeave);
+        });
+      }
+
+      function onHover(event) {
+        var imgNum = event.target.id;
+        $("#largeImage-div").html(
+          "<img id = 'largeImage' src=" +
+            galleryObjects[imgNum].largeImg +
+            "></img>"
+        );
+        $("#largeImage-div")
+          .hide()
+          .fadeIn();
+      }
+
+      function onMouseEnter(event) {
+        $(this).css("border-style", "solid");
+        $(this).css("border-color", "#f5edf0");
+        $(this).css("border-width", "5px");
+        if (!$(this).hasClass("selected")) $("#img-info").hide();
+      }
+
+      function onMouseLeave(event) {
+        $(this).css("border-style", "");
+        $(this).css("border-color", "");
+        $(this).css("border-width", "");
+      }
+
+      function onClick(event) {
+        var imgNum = event.target.id;
+        $("#img-info").html(
+          "<p>Title: " +
+            galleryObjects[imgNum].name +
+            "</p><p>Price: $" +
+            galleryObjects[imgNum].price +
+            "</p>"
+        );
+        $("#img-info").fadeIn();
+        setTimeout(function() {
+          $("#img-info").fadeOut();
+        }, 5000);
+      }
+      $(document).ready(function() {
+        $("#img-info").hide();
+        addThumbnails();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>ART GALLERY</h1>
+    <div id="thumbnails"></div>
+    <div id="img-info">info</div>
+    <div id="largeImage-div">
+      <img src="starrynight.jpg" id="largeImage" />
+    </div>
+  </body>
+</html>
